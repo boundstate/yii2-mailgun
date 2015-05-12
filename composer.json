@@ -1,0 +1,22 @@
+{
+    "name": "boundstate/yii2-mailgun",
+    "description": "Mailgun integration for the Yii framework",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "extension", "rackspace", "mailgun", "mail", "email", "mailer"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Mike Peters",
+            "email": "mikejpeters@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": ">=2.0.4",
+        "mailgun/mailgun-php": "~1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "boundstate\\mailgun\\": ""
+        }
+    }
+}
