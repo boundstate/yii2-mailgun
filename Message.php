@@ -60,7 +60,13 @@ class Message extends BaseMessage
      */
     public function setFrom($from)
     {
-        $this->getMessageBuilder()->setFromAddress($from);
+        if (is_array($from)) {
+            foreach ($from as $email => $fullName) {
+                $this->getMessageBuilder()->setFromAddress($email, [ 'full_name' => $fullName ]);
+            }
+        } else {
+            $this->getMessageBuilder()->setFromAddress($from);
+        }
 
         return $this;
     }
