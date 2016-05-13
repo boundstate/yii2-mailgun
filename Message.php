@@ -62,7 +62,7 @@ class Message extends BaseMessage
     {
         if (is_array($from)) {
             foreach ($from as $email => $fullName) {
-                $this->getMessageBuilder()->setFromAddress($email, [ 'full_name' => $fullName ]);
+                $this->getMessageBuilder()->setFromAddress($email, ['full_name' => $fullName]);
             }
         } else {
             $this->getMessageBuilder()->setFromAddress($from);
