@@ -209,7 +209,9 @@ class Message extends BaseMessage
      */
     public function embed($fileName, array $options = [])
     {
-        throw new NotSupportedException();
+        $attachmentName = !empty($options['fileName']) ? $options['fileName'] : basename($fileName);
+        $this->getMessageBuilder()->addInlineImage("@{$fileName}", $attachmentName);
+        return 'cid:'.$attachmentName;
     }
 
     /**
