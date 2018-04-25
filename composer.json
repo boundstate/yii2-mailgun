@@ -12,7 +12,9 @@
     ],
     "require": {
         "yiisoft/yii2": ">=2.0.4",
-        "mailgun/mailgun-php": "~2.3.3"
+        "mailgun/mailgun-php": "^2.5.0",
+        "php-http/curl-client": "^1.7",
+        "guzzlehttp/psr7": "^1.4"
     },
     "autoload": {
         "psr-4": {
