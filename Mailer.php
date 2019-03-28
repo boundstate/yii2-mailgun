@@ -19,7 +19,7 @@ use \Mailgun\Mailgun;
  *         'class' => 'boundstate\mailgun\Mailer',
  *         'key' => 'key-example',
  *         'domain' => 'mg.example.com',
-            'server' => 'https://api.eu.mailgun.net'
+           'server' => 'https://api.eu.mailgun.net'
  *     ],
  *     ...
  * ],
