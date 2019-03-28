@@ -19,6 +19,7 @@ use \Mailgun\Mailgun;
  *         'class' => 'boundstate\mailgun\Mailer',
  *         'key' => 'key-example',
  *         'domain' => 'mg.example.com',
+            'server' => 'https://api.eu.mailgun.net'
  *     ],
  *     ...
  * ],
@@ -50,6 +51,11 @@ class Mailer extends BaseMailer
      * @var string Mailgun domain.
      */
     public $domain;
+    
+    /**
+     * @var string Mailgun domain.
+     */
+    public $server;
 
     /**
      * @var Mailgun Mailgun instance.
@@ -95,6 +101,9 @@ class Mailer extends BaseMailer
         if (!$this->domain) {
             throw new InvalidConfigException('Mailer::domain must be set.');
         }
-        return new Mailgun($this->key);
+        if (!$this->server) {
+            throw new InvalidConfigException('Mailer::server must be set.');
+        }
+        return new Mailgun::create($this->key, $this->server);
     }
 }
