@@ -104,6 +104,6 @@ class Mailer extends BaseMailer
         if (!$this->server) {
             throw new InvalidConfigException('Mailer::server must be set.');
         }
-        return new Mailgun::create($this->key, $this->server);
+        return Mailgun::create($this->key, $this->server);
     }
 }
