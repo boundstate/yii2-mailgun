@@ -80,12 +80,10 @@ class Mailer extends BaseMailer
     protected function sendMessage($message)
     {
         Yii::info('Sending email', __METHOD__);
-
-        $this->getMailgun()->post("{$this->domain}/messages",
-            $message->getMessageBuilder()->getMessage(),
-            $message->getMessageBuilder()->getFiles());
-
-         return true;
+        
+        $mg = $this->createMailgun();
+        $resp = $mg->messages()->send($this->domain, $message->getMessageBuilder()->getMessage());
+        return !empty($resp->getId());
     }
 
     /**
