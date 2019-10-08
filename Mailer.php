@@ -52,6 +52,11 @@ class Mailer extends BaseMailer
     public $domain;
 
     /**
+     * @var string Mailgun endpoint.
+     */
+    public $endpoint = "api.mailgun.net";
+
+    /**
      * @var Mailgun Mailgun instance.
      */
     private $_mailgun;
@@ -95,6 +100,6 @@ class Mailer extends BaseMailer
         if (!$this->domain) {
             throw new InvalidConfigException('Mailer::domain must be set.');
         }
-        return new Mailgun($this->key);
+        return new Mailgun($this->key, $this->endpoint);
     }
 }
