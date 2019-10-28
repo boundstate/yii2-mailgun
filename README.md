@@ -1,5 +1,7 @@
 # Mailgun
 
+[![Build Status](https://travis-ci.com/boundstate/yii2-mailgun.svg?branch=master)](https://travis-ci.com/boundstate/yii2-mailgun)
+
 Mailgun integration for the Yii framework
 
 ## Installation
