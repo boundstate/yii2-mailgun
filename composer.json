@@ -12,11 +12,16 @@
     ],
     "require": {
         "yiisoft/yii2": ">=2.0.4",
-        "mailgun/mailgun-php": ">=1.8"
+        "mailgun/mailgun-php": "^3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8",
+        "kriswallsmith/buzz": "^1.0",
+        "nyholm/psr7": "^1.2"
     },
     "autoload": {
         "psr-4": {
-            "boundstate\\mailgun\\": ""
+            "boundstate\\mailgun\\": "src"
         }
     }
 }

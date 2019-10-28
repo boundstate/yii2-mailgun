@@ -1,5 +1,4 @@
 <?php
-
 namespace boundstate\mailgun;
 
 use Yii;
@@ -54,7 +53,7 @@ class Mailer extends BaseMailer
     /**
      * @var string Mailgun endpoint.
      */
-    public $endpoint = "api.mailgun.net";
+    public $endpoint = null;
 
     /**
      * @var Mailgun Mailgun instance.
@@ -100,6 +99,6 @@ class Mailer extends BaseMailer
         if (!$this->domain) {
             throw new InvalidConfigException('Mailer::domain must be set.');
         }
-        return new Mailgun($this->key, $this->endpoint);
+        return $this->endpoint ? Mailgun::create($this->key, $this->endpoint) : Mailgun::create($this->key);
     }
 }
