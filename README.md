@@ -1,26 +1,26 @@
-# Mailgun
-
-[![Build Status](https://travis-ci.com/boundstate/yii2-mailgun.svg?branch=master)](https://travis-ci.com/boundstate/yii2-mailgun)
+# Mailgun Extension for Yii 2
 
 Mailgun integration for the Yii framework
+
+[![Build Status](https://travis-ci.com/boundstate/yii2-mailgun.svg?branch=master)](https://travis-ci.com/boundstate/yii2-mailgun)
 
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-Either run
-
 ```
-php composer.phar require --prefer-dist boundstate/yii2-mailgun "*"
+composer require boundstate/yii2-mailgun
 ```
 
-or add
+The [Mailgun API Client](https://github.com/mailgun/mailgun-php) is not hard coupled to Guzzle, Buzz or any other library that sends
+HTTP messages. You must also install the [PSR-7 implementation and HTTP client](https://packagist.org/providers/php-http/client-implementation)
+you want to use.
 
-```
-"boundstate/yii2-mailgun": "*"
-```
+If you just want to get started quickly you should install [Buzz](https://github.com/kriswallsmith/Buzz) and [nyholm/psr7](https://github.com/Nyholm/psr7):
 
-to the require section of your `composer.json` file.
+```bash
+composer require kriswallsmith/buzz nyholm/psr7
+```
 
 ## Usage
 
