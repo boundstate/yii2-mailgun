@@ -6,7 +6,7 @@ namespace boundstate\mailgun;
 use yii\base\NotSupportedException;
 use yii\helpers\VarDumper;
 use yii\mail\BaseMessage;
-use Mailgun\Messages\MessageBuilder;
+use Mailgun\Message\MessageBuilder;
 
 /**
  * Message implements a message class based on Mailgun.
