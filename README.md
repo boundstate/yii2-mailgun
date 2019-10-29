@@ -1,7 +1,9 @@
 # Mailgun Extension for Yii 2
 
-Mailgun integration for the Yii framework
+This extension provides a [Mailgun](https://www.mailgun.com/) mail solution for [Yii framework 2.0](http://www.yiiframework.com).
 
+[![Latest Stable Version](https://poser.pugx.org/boundstate/yii2-mailgun/v/stable)](https://packagist.org/packages/boundstate/yii2-mailgun)
+[![Total Downloads](https://poser.pugx.org/boundstate/yii2-mailgun/downloads)](https://packagist.org/packages/boundstate/yii2-mailgun)
 [![Build Status](https://travis-ci.com/boundstate/yii2-mailgun.svg?branch=master)](https://travis-ci.com/boundstate/yii2-mailgun)
 
 ## Installation
@@ -24,21 +26,22 @@ composer require kriswallsmith/buzz nyholm/psr7
 
 ## Usage
 
-Configure it in the application configuration:
+To use this extension, simply add the following code in your application configuration:
 
 ```php
-'components' => [
-    ...
-    'mailer' => [
-        'class' => 'boundstate\mailgun\Mailer',
-        'key' => 'key-example',
-        'domain' => 'mg.example.com',
+return [
+    //....
+    'components' => [
+        'mailer' => [
+            'class' => 'boundstate\mailgun\Mailer',
+            'key' => 'key-example',
+            'domain' => 'mg.example.com',
+        ],
     ],
-    ...
-],
+];
 ```
 
-To send an email, you may use the following code:
+You can then send an email as follows:
 
 ```php
 Yii::$app->mailer->compose('contact/html', ['contactForm' => $form])
@@ -47,3 +50,5 @@ Yii::$app->mailer->compose('contact/html', ['contactForm' => $form])
     ->setSubject($form->subject)
     ->send();
 ```
+
+For further instructions refer to the [related section in the Yii Definitive Guide](http://www.yiiframework.com/doc-2.0/guide-tutorial-mailing.html).
