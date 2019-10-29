@@ -1,7 +1,6 @@
 <?php
 namespace boundstate\mailgun\tests;
 
-use boundstate\mailgun\Mailer;
 use Yii;
 
 final class MessageTest extends TestCase
@@ -9,8 +8,6 @@ final class MessageTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $mailer = new Mailer();
 
         $this->mockApplication([
             'components' => [
