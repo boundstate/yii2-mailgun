@@ -23,7 +23,7 @@ final class MailerTest extends TestCase
         ]);
     }
 
-    public function testInitializesMailgun(): void
+    public function testGetMailgun(): void
     {
         $mailgun = Yii::$app->mailer->getMailgun();
         $this->assertInstanceOf(\Mailgun\Mailgun::class, $mailgun);

@@ -230,6 +230,16 @@ class Message extends BaseMessage
     }
 
     /**
+     * Sets whether the message in test mode.
+     * When you do this, Mailgun will accept the message but will not send it. This is useful for testing purposes.
+     */
+    public function setTestMode(bool $enabled): self {
+        $this->getMessageBuilder()->setTestMode($enabled);
+
+        return $this;
+    }
+
+    /**
      * Creates the Mailgun message builder.
      * @return MessageBuilder message builder.
      */
