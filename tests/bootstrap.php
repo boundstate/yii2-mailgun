@@ -12,3 +12,10 @@ require_once(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 
 Yii::setAlias('@boundstate/mailgun/tests', __DIR__);
 Yii::setAlias('@boundstate/mailgun', dirname(__DIR__) . '/src');
+
+if (!getenv('CI')) {
+    // Load environment from `.env`
+    $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
+    $dotenv->load();
+    $dotenv->required(['MAILGUN_DOMAIN', 'MAILGUN_KEY', 'TEST_RECIPIENT']);
+}
