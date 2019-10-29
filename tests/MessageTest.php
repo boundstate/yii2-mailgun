@@ -34,7 +34,7 @@ final class MessageTest extends TestCase
     public function testSend(): void
     {
         $message = Yii::$app->mailer->compose('example', ['name' => 'John'])
-            ->setTo('mpeters@boundstatesoftware.com')
+            ->setTo(getenv('TEST_RECIPIENT'))
             ->setFrom('test@example.com')
             ->setSubject('Test')
             ->setTestMode(true);
