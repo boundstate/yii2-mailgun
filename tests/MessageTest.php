@@ -16,8 +16,8 @@ final class MessageTest extends TestCase
             'components' => [
                 'mailer' => [
                     'class' => 'boundstate\mailgun\Mailer',
-                    'key' => '801b0ee9ba59f340019da1c62a9f31df-816b23ef-3007ca87',
-                    'domain' => 'sandbox475d21b1d2084dd5af26f3612111b476.mailgun.org',
+                    'key' => getenv('MAILGUN_KEY'),
+                    'domain' => getenv('MAILGUN_DOMAIN'),
                 ],
             ]
         ]);
