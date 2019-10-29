@@ -19,6 +19,10 @@
         "kriswallsmith/buzz": "^1.0",
         "nyholm/psr7": "^1.2"
     },
+    "suggest": {
+        "kriswallsmith/buzz": "Mailgun API client requires an HTTP client",
+        "nyholm/psr7": "Mailgun API client requires a PSR-7 implementation"
+    },
     "autoload": {
         "psr-4": {
             "boundstate\\mailgun\\": "src"
