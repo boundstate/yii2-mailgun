@@ -259,7 +259,7 @@ class Message extends BaseMessage
         
         //Combien the emails
         $recipients = [];
-        foreach($recipients as $name => $email) {
+        foreach($emails as $name => $email) {
             if (is_numeric($name)) { 
                 $recipients[] = $email; 
             } else {
