@@ -40,6 +40,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
+     * @deprecated MailGun only supports UTF8
      */
     public function setCharset($charset)
     {
@@ -197,6 +198,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
+     * @deprecated attachContent is not supported by MailGun
      */
     public function attachContent($content, array $options = [])
     {
@@ -215,6 +217,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
+     * @deprecated embedContent is not supported by MailGun
      */
     public function embedContent($content, array $options = [])
     {
