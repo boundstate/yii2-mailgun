@@ -103,6 +103,7 @@ class Message extends BaseMessage
      */
     public function setTo($to)
     {
+        if (is_array($to)) $to = join(', ', $to);
         $this->getMessageBuilder()->addToRecipient($to);
 
         return $this;
@@ -122,6 +123,7 @@ class Message extends BaseMessage
      */
     public function setCc($cc)
     {
+        if (is_array($cc)) $cc = join(', ', $cc);
         $this->getMessageBuilder()->addCcRecipient($cc);
 
         return $this;
@@ -141,6 +143,7 @@ class Message extends BaseMessage
      */
     public function setBcc($bcc)
     {
+        if (is_array($bcc)) $bcc = join(', ', $bcc);
         $this->getMessageBuilder()->addBccRecipient($bcc);
 
         return $this;
