@@ -103,8 +103,7 @@ class Message extends BaseMessage
      */
     public function setTo($to)
     {
-        if (is_array($to)) $to = join(', ', $to);
-        $this->getMessageBuilder()->addToRecipient($to);
+        $this->getMessageBuilder()->addToRecipient($this->prepareRecipients($to));
 
         return $this;
     }
@@ -123,8 +122,7 @@ class Message extends BaseMessage
      */
     public function setCc($cc)
     {
-        if (is_array($cc)) $cc = join(', ', $cc);
-        $this->getMessageBuilder()->addCcRecipient($cc);
+        $this->getMessageBuilder()->addCcRecipient($this->prepareRecipients($cc));
 
         return $this;
     }
@@ -143,8 +141,7 @@ class Message extends BaseMessage
      */
     public function setBcc($bcc)
     {
-        if (is_array($bcc)) $bcc = join(', ', $bcc);
-        $this->getMessageBuilder()->addBccRecipient($bcc);
+        $this->getMessageBuilder()->addBccRecipient($this->prepareRecipients($bcc));
 
         return $this;
     }
@@ -252,5 +249,25 @@ class Message extends BaseMessage
     protected function createMessageBuilder()
     {
         return new MessageBuilder;
+    }
+
+    /** Prepares the emails into an acceptable form.
+     * @return string comma seperated list of emails.
+     */
+    protected function prepareRecipients($emails) {
+        if (!is_array($emails)) return $emails;
+        
+        //Combien the emails
+        $recipients = [];
+        foreach($recipients as $name => $email) {
+            if (is_numeric($name)) { 
+                $recipients[] = $email; 
+            } else {
+                $recipients[] = "$name <$email>";
+            }
+        }
+
+        //Join it
+        return join(', ', $recipients);
     }
 }
