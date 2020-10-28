@@ -40,6 +40,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
+     * @deprecated MailGun only supports UTF8
      */
     public function setCharset($charset)
     {
@@ -102,7 +103,7 @@ class Message extends BaseMessage
      */
     public function setTo($to)
     {
-        $this->getMessageBuilder()->addToRecipient($to);
+        $this->getMessageBuilder()->addToRecipient($this->prepareRecipients($to));
 
         return $this;
     }
@@ -121,7 +122,7 @@ class Message extends BaseMessage
      */
     public function setCc($cc)
     {
-        $this->getMessageBuilder()->addCcRecipient($cc);
+        $this->getMessageBuilder()->addCcRecipient($this->prepareRecipients($cc));
 
         return $this;
     }
@@ -140,7 +141,7 @@ class Message extends BaseMessage
      */
     public function setBcc($bcc)
     {
-        $this->getMessageBuilder()->addBccRecipient($bcc);
+        $this->getMessageBuilder()->addBccRecipient($this->prepareRecipients($bcc));
 
         return $this;
     }
@@ -197,6 +198,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
+     * @deprecated attachContent is not supported by MailGun
      */
     public function attachContent($content, array $options = [])
     {
@@ -215,6 +217,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
+     * @deprecated embedContent is not supported by MailGun
      */
     public function embedContent($content, array $options = [])
     {
@@ -246,5 +249,25 @@ class Message extends BaseMessage
     protected function createMessageBuilder()
     {
         return new MessageBuilder;
+    }
+
+    /** Prepares the emails into an acceptable form.
+     * @return string comma seperated list of emails.
+     */
+    protected function prepareRecipients($emails) {
+        if (!is_array($emails)) return $emails;
+        
+        //Combien the emails
+        $recipients = [];
+        foreach($emails as $name => $email) {
+            if (is_numeric($name)) { 
+                $recipients[] = $email; 
+            } else {
+                $recipients[] = "$name <$email>";
+            }
+        }
+
+        //Join it
+        return join(', ', $recipients);
     }
 }
