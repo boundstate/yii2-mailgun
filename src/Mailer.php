@@ -80,10 +80,14 @@ class Mailer extends BaseMailer
     {
         Yii::info('Sending email', __METHOD__);
 
-        $this->getMailgun()->messages()->send(
-            $this->domain,
-            $message->getMessageBuilder()->getMessage()
-        );
+        if ($message instanceof BatchMessage) {
+            $message->getMessageBuilder()->finalize();
+        } else {
+            $this->getMailgun()->messages()->send(
+                $this->domain,
+                $message->getMessageBuilder()->getMessage()
+            );
+        }
 
         return true;
     }

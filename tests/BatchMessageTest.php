@@ -3,7 +3,7 @@ namespace boundstate\mailgun\tests;
 
 use Yii;
 
-final class MessageTest extends TestCase
+final class BatchMessageTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -13,6 +13,7 @@ final class MessageTest extends TestCase
             'components' => [
                 'mailer' => [
                     'class' => 'boundstate\mailgun\Mailer',
+                    'messageClass' => 'boundstate\mailgun\BatchMessage',
                     'key' => getenv('MAILGUN_KEY'),
                     'domain' => getenv('MAILGUN_DOMAIN'),
                 ],
@@ -48,6 +49,16 @@ final class MessageTest extends TestCase
             ->setTo([
                 'a@example.com' => 'Anne',
                 'b@example.com' => 'Billy'
+            ]);
+        $this->assertEquals(['"Anne" <a@example.com>', '"Billy" <b@example.com>'], $message->getTo());
+    }
+
+    public function testMultiToWithVariables(): void
+    {
+        $message = Yii::$app->mailer->compose('example', ['name' => 'John'])
+            ->setTo([
+                'a@example.com' => ['full_name' => 'Anne', 'id' => 3],
+                'b@example.com' => ['full_name' => 'Billy', 'id' => 4]
             ]);
         $this->assertEquals(['"Anne" <a@example.com>', '"Billy" <b@example.com>'], $message->getTo());
     }
