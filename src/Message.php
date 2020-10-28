@@ -198,7 +198,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
-     * @deprecated attachContent is not supported by MailGun
+     * @deprecated attachContent is not supported by MailGun.
      */
     public function attachContent($content, array $options = [])
     {
@@ -217,7 +217,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
-     * @deprecated embedContent is not supported by MailGun
+     * @deprecated Embedding content is not supported by MailGun.
      */
     public function embedContent($content, array $options = [])
     {
@@ -233,8 +233,9 @@ class Message extends BaseMessage
     }
 
     /**
-     * Sets whether the message in test mode.
-     * When you do this, Mailgun will accept the message but will not send it. This is useful for testing purposes.
+     * Sets whether to send the message in test mode.
+     * @param bool $enabled Mailgun will accept the message but will not send it. This is useful for testing purposes.
+     * @return Message self reference.
      */
     public function setTestMode(bool $enabled): self {
         $this->getMessageBuilder()->setTestMode($enabled);
@@ -251,15 +252,19 @@ class Message extends BaseMessage
         return new MessageBuilder;
     }
 
-    /** Prepares the emails into an acceptable form.
-     * @return string comma seperated list of emails.
+    /**
+     * Prepares the emails into an acceptable form.
+     * @param string|array $emails email address or array of addresses
+     * Supports providing name in addition to email address using format: `[email => name]`.
+     * @return string comma delimited list of emails
      */
     protected function prepareRecipients($emails) {
-        if (!is_array($emails)) return $emails;
-        
-        //Combien the emails
+        if (!is_array($emails)) {
+            return $emails;
+        }
+
         $recipients = [];
-        foreach($emails as $name => $email) {
+        foreach ($emails as $name => $email) {
             if (is_numeric($name)) { 
                 $recipients[] = $email; 
             } else {
@@ -267,7 +272,6 @@ class Message extends BaseMessage
             }
         }
 
-        //Join it
         return join(', ', $recipients);
     }
 }

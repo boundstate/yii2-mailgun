@@ -74,6 +74,7 @@ class Mailer extends BaseMailer
 
     /**
      * @inheritdoc
+     * @param Message $message the message to be sent
      */
     protected function sendMessage($message)
     {
