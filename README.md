@@ -51,4 +51,24 @@ Yii::$app->mailer->compose('contact/html', ['contactForm' => $form])
     ->send();
 ```
 
-For further instructions refer to the [related section in the Yii Definitive Guide](http://www.yiiframework.com/doc-2.0/guide-tutorial-mailing.html).
+You can also specify recipient names and/or perform [batch sending](https://documentation.mailgun.com/en/latest/user_manual.html#batch-sending):
+
+```php
+$message->setTo(['bob@example.com' => 'Bob']);
+```
+
+```php
+$message->setTo([
+  'bob@example.com' => [
+    'id': 3,
+    'full_name' => 'Bob'
+  ],
+  'jane@example.com' => [
+    'id': 4,
+    'full_name' => 'Jane'
+  ],
+]);
+```
+
+
+For further instructions refer to the [Mailgun docs](https://documentation.mailgun.com/) and the [related section in the Yii Definitive Guide](http://www.yiiframework.com/doc-2.0/guide-tutorial-mailing.html).

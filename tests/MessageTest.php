@@ -25,7 +25,41 @@ final class MessageTest extends TestCase
         $message = Yii::$app->mailer->compose('example', ['name' => 'John']);
         $html = $message->getMessageBuilder()->getMessage()['html'];
 
-        $this->assertEquals($html, '<p>Hi John!</p>');
+        $this->assertEquals('<p>Hi John!</p>', $html);
+    }
+
+    public function testSingleTo(): void
+    {
+        $message = Yii::$app->mailer->compose('example', ['name' => 'John'])
+            ->setTo('a@example.com');
+        $this->assertEquals(['a@example.com'], $message->getTo());
+    }
+
+    public function testMultiTo(): void
+    {
+        $message = Yii::$app->mailer->compose('example', ['name' => 'John'])
+            ->setTo(['a@example.com', 'b@example.com']);
+        $this->assertEquals(['a@example.com', 'b@example.com'], $message->getTo());
+    }
+
+    public function testMultiToWithNames(): void
+    {
+        $message = Yii::$app->mailer->compose('example', ['name' => 'John'])
+            ->setTo([
+                'a@example.com' => 'Anne',
+                'b@example.com' => 'Billy'
+            ]);
+        $this->assertEquals(['"Anne" <a@example.com>', '"Billy" <b@example.com>'], $message->getTo());
+    }
+
+    public function testMultiToWithVariables(): void
+    {
+        $message = Yii::$app->mailer->compose('example', ['name' => 'John'])
+            ->setTo([
+                'a@example.com' => ['full_name' => 'Anne', 'id' => 3],
+                'b@example.com' => ['full_name' => 'Billy', 'id' => 4]
+            ]);
+        $this->assertEquals(['"Anne" <a@example.com>', '"Billy" <b@example.com>'], $message->getTo());
     }
 
     public function testSend(): void

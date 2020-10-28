@@ -40,7 +40,7 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
-     * @deprecated MailGun only supports UTF8
+     * @deprecated Mailgun only supports UTF8
      */
     public function setCharset($charset)
     {
@@ -52,7 +52,8 @@ class Message extends BaseMessage
      */
     public function getFrom()
     {
-        return null;
+        $message = $this->getMessageBuilder()->getMessage();
+        return !empty($message['from']) ? $message['from'] : null;
     }
 
     /**
@@ -60,12 +61,10 @@ class Message extends BaseMessage
      */
     public function setFrom($from)
     {
-        if (is_array($from)) {
-            foreach ($from as $email => $fullName) {
-                $this->getMessageBuilder()->setFromAddress($email, ['full_name' => $fullName]);
-            }
-        } else {
-            $this->getMessageBuilder()->setFromAddress($from);
+        $addresses = EmailAddress::parse($from);
+
+        foreach ($addresses as $address) {
+            $this->getMessageBuilder()->setFromAddress($address->email, $address->variables);
         }
 
         return $this;
@@ -76,15 +75,23 @@ class Message extends BaseMessage
      */
     public function getReplyTo()
     {
-        return null;
+        $message = $this->getMessageBuilder()->getMessage();
+        return !empty($message['h:reply-to']) ? $message['h:reply-to'] : null;
     }
 
     /**
      * @inheritdoc
+     * @throws NotSupportedException if multiple addresses are provided (Mailgun only supports one)
      */
     public function setReplyTo($replyTo)
     {
-        $this->getMessageBuilder()->setReplyToAddress($replyTo);
+        $addresses = EmailAddress::parse($replyTo);
+
+        if (count($addresses) !== 1) {
+            throw new NotSupportedException('Mailgun only supports one reply-to address');
+        }
+
+        $this->getMessageBuilder()->setReplyToAddress($addresses[0]->email, $addresses[0]->variables);
 
         return $this;
     }
@@ -103,7 +110,11 @@ class Message extends BaseMessage
      */
     public function setTo($to)
     {
-        $this->getMessageBuilder()->addToRecipient($this->prepareRecipients($to));
+        $addresses = EmailAddress::parse($to);
+
+        foreach ($addresses as $address) {
+            $this->getMessageBuilder()->addToRecipient($address->email, $address->variables);
+        }
 
         return $this;
     }
@@ -122,7 +133,11 @@ class Message extends BaseMessage
      */
     public function setCc($cc)
     {
-        $this->getMessageBuilder()->addCcRecipient($this->prepareRecipients($cc));
+        $addresses = EmailAddress::parse($cc);
+
+        foreach ($addresses as $address) {
+            $this->getMessageBuilder()->addCcRecipient($address->email, $address->variables);
+        }
 
         return $this;
     }
@@ -141,7 +156,11 @@ class Message extends BaseMessage
      */
     public function setBcc($bcc)
     {
-        $this->getMessageBuilder()->addBccRecipient($this->prepareRecipients($bcc));
+        $addresses = EmailAddress::parse($bcc);
+
+        foreach ($addresses as $address) {
+            $this->getMessageBuilder()->addBccRecipient($address->email, $address->variables);
+        }
 
         return $this;
     }
@@ -198,11 +217,11 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
-     * @deprecated attachContent is not supported by MailGun.
+     * @deprecated Attaching content is not supported by Mailgun.
      */
     public function attachContent($content, array $options = [])
     {
-        throw new NotSupportedException();
+        throw new NotSupportedException('Attaching content is not supported');
     }
 
     /**
@@ -217,11 +236,11 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
-     * @deprecated Embedding content is not supported by MailGun.
+     * @deprecated Embedding content is not supported by Mailgun.
      */
     public function embedContent($content, array $options = [])
     {
-        throw new NotSupportedException();
+        throw new NotSupportedException('Embedding content is not supported');
     }
 
     /**
@@ -250,28 +269,5 @@ class Message extends BaseMessage
     protected function createMessageBuilder()
     {
         return new MessageBuilder;
-    }
-
-    /**
-     * Prepares the emails into an acceptable form.
-     * @param string|array $emails email address or array of addresses
-     * Supports providing name in addition to email address using format: `[email => name]`.
-     * @return string comma delimited list of emails
-     */
-    protected function prepareRecipients($emails) {
-        if (!is_array($emails)) {
-            return $emails;
-        }
-
-        $recipients = [];
-        foreach ($emails as $name => $email) {
-            if (is_numeric($name)) { 
-                $recipients[] = $email; 
-            } else {
-                $recipients[] = "$name <$email>";
-            }
-        }
-
-        return join(', ', $recipients);
     }
 }
