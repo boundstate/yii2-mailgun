@@ -217,11 +217,23 @@ class Message extends BaseMessage
 
     /**
      * @inheritdoc
-     * @deprecated Attaching content is not supported by Mailgun.
      */
     public function attachContent($content, array $options = [])
     {
-        throw new NotSupportedException('Attaching content is not supported');
+        $attachmentName = !empty($options['fileName']) ? $options['fileName'] : null;
+        $message = $this->getMessageBuilder()->getMessage();
+
+        if (!isset($message['attachment'])) {
+            $message['attachment'] = [];
+        }
+
+        $message['attachment'][] = [
+            'fileContent' => $content,
+            'filename' => $attachmentName,
+        ];
+        $this->getMessageBuilder()->setMessage($message);
+
+        return $this;
     }
 
     /**
